@@ -1,5 +1,3 @@
-// src/hooks/useCoins.ts
-
 import { useState, useEffect } from 'react';
 import { Coin } from '../types/coinTypes';
 
@@ -21,6 +19,8 @@ const useCoins = () => {
         const formattedCoins: Coin[] = data.map((coin: any) => ({
           id: coin.id,
           name: coin.name,
+          symbol: coin.symbol,
+          image: coin.image,
           price: coin.current_price,
           isAdded: false,
         }));

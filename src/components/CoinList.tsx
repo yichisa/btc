@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, DefaultButton, Text } from '@fluentui/react';
+import { Stack, DefaultButton, Text, Image } from '@fluentui/react';
 import { Coin } from '../types/coinTypes';
 import { formatPrice } from '../utils/formatPrice';
 
@@ -10,11 +10,29 @@ interface CoinListProps {
 
 const CoinList: React.FC<CoinListProps> = ({ coins, onAdd }) => {
   return (
-    <Stack tokens={{ childrenGap: 10 }}>
-      <Text variant="xxLarge">Available Coins</Text>
+    <Stack
+      horizontal
+      wrap
+      tokens={{ childrenGap: 20 }}
+      styles={{ root: { justifyContent: 'center' } }}
+    >
       {coins.map((coin) => (
-        <Stack horizontal key={coin.id} horizontalAlign="space-between">
-          <Text>{coin.name} - {formatPrice(coin.price)}</Text>
+        <Stack
+          key={coin.id}
+          tokens={{ childrenGap: 10 }}
+          styles={{ root: { width: '200px', textAlign: 'center', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' } }}
+        >
+          <Image
+            src={coin.image}
+            alt={coin.name}
+            height={50}
+            width={50}
+          />
+          
+          <Text variant="large">{coin.name}</Text>
+          
+          <Text>{formatPrice(coin.price)}</Text>
+          
           {!coin.isAdded && (
             <DefaultButton
               text="Add to List"

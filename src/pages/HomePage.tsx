@@ -1,5 +1,3 @@
-// src/pages/HomePage.tsx
-
 import React from 'react';
 import { Stack, Text, Spinner, MessageBar, MessageBarType } from '@fluentui/react';
 import CoinList from '../components/CoinList';
@@ -22,8 +20,8 @@ const HomePage: React.FC = () => {
       )}
       {!loading && !error && (
         <>
-          <CoinList coins={coins} onAdd={addCoin} />
           <ShoppingList coins={coins} onRemove={removeCoin} />
+          <CoinList coins={coins} onAdd={addCoin} />
         </>
       )}
     </Stack>
