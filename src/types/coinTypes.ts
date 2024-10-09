@@ -5,5 +5,6 @@ export interface Coin {
     image: string;
     price: number;
     isAdded: boolean;
+    quantity: number;
   }
   

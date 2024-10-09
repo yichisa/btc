@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Coin } from '../types/coinTypes';
+import { initializeIcons } from '@fluentui/react/lib/Icons';
+
+initializeIcons();
 
 const useCoins = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
@@ -23,6 +26,7 @@ const useCoins = () => {
           image: coin.image,
           price: coin.current_price,
           isAdded: false,
+          quantity: coin.quantity,
         }));
         setCoins(formattedCoins);
         setLoading(false);
@@ -38,7 +42,7 @@ const useCoins = () => {
   const addCoin = (coinId: string) => {
     setCoins((prevCoins) =>
       prevCoins.map((coin) =>
-        coin.id === coinId ? { ...coin, isAdded: true } : coin
+        coin.id === coinId ? { ...coin, isAdded: true, quantity: 1 } : coin
       )
     );
   };
@@ -46,12 +50,31 @@ const useCoins = () => {
   const removeCoin = (coinId: string) => {
     setCoins((prevCoins) =>
       prevCoins.map((coin) =>
-        coin.id === coinId ? { ...coin, isAdded: false } : coin
+        coin.id === coinId ? { ...coin, isAdded: false, quantity: 0 } : coin
       )
     );
   };
 
-  return { coins, addCoin, removeCoin, loading, error };
+
+  const incrementQuantity = (coinId: string) => {
+    setCoins((prevCoins) =>
+      prevCoins.map((coin) =>
+        coin.id === coinId ? { ...coin, quantity: coin.quantity + 1 } : coin
+      )
+    );
+  };
+
+  const decrementQuantity = (coinId: string) => {
+    setCoins((prevCoins) =>
+      prevCoins.map((coin) =>
+        coin.id === coinId && coin.quantity > 1
+          ? { ...coin, quantity: coin.quantity - 1 }
+          : coin
+      )
+    );
+  };
+
+  return { coins, addCoin, removeCoin, incrementQuantity, decrementQuantity, loading, error };
 };
 
 export default useCoins;
