@@ -5,7 +5,7 @@ import ShoppingList from '../components/ShoppingList';
 import useCoins from '../hooks/useCoins';
 
 const HomePage: React.FC = () => {
-  const { coins, addCoin, removeCoin, incrementQuantity, decrementQuantity, loading, error } = useCoins();
+  const { coins, addCoin, removeCoin, resetCoin, incrementQuantity, decrementQuantity, loading, error } = useCoins();
 
   return (
     <Stack tokens={{ childrenGap: 20, padding: 20 }}>
@@ -25,6 +25,7 @@ const HomePage: React.FC = () => {
             onRemove={removeCoin}
             onIncrement={incrementQuantity}
             onDecrement={decrementQuantity}
+            onReset={resetCoin}
         />
           <CoinList coins={coins} onAdd={addCoin} />
         </>

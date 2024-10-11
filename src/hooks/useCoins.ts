@@ -55,6 +55,13 @@ const useCoins = () => {
     );
   };
 
+  const resetCoin = () => {
+    setCoins((prevCoins) =>
+      prevCoins.map((coin) => ({ ...coin, isAdded: false, quantity: 0 })
+      )
+    );
+  };
+
 
   const incrementQuantity = (coinId: string) => {
     setCoins((prevCoins) =>
@@ -80,16 +87,8 @@ const useCoins = () => {
       .reduce((total, coin) => total + coin.price * coin.quantity, 0);
   };
   
-  const getCoinBreakdown = (coins: Coin[]): Record<string, number> => {
-    return coins
-      .filter((coin) => coin.isAdded)
-      .reduce((acc, coin) => {
-        acc[coin.name] = (acc[coin.name] || 0) + coin.quantity;
-        return acc;
-      }, {} as Record<string, number>);
-  };
 
-  return { coins, addCoin, removeCoin, incrementQuantity, decrementQuantity, getTotalPrice, getCoinBreakdown, loading, error };
+  return { coins, addCoin, removeCoin, resetCoin, incrementQuantity, decrementQuantity, getTotalPrice, loading, error };
 };
 
 export default useCoins;
