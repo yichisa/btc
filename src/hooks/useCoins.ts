@@ -74,7 +74,22 @@ const useCoins = () => {
     );
   };
 
-  return { coins, addCoin, removeCoin, incrementQuantity, decrementQuantity, loading, error };
+  const getTotalPrice = (coins: Coin[]): number => {
+    return coins
+      .filter((coin) => coin.isAdded)
+      .reduce((total, coin) => total + coin.price * coin.quantity, 0);
+  };
+  
+  const getCoinBreakdown = (coins: Coin[]): Record<string, number> => {
+    return coins
+      .filter((coin) => coin.isAdded)
+      .reduce((acc, coin) => {
+        acc[coin.name] = (acc[coin.name] || 0) + coin.quantity;
+        return acc;
+      }, {} as Record<string, number>);
+  };
+
+  return { coins, addCoin, removeCoin, incrementQuantity, decrementQuantity, getTotalPrice, getCoinBreakdown, loading, error };
 };
 
 export default useCoins;

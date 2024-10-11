@@ -9,9 +9,16 @@ interface ShoppingListProps {
   onIncrement: (coinId: string) => void;
   onDecrement: (coinId: string) => void;
 }
-
+const getTotalPrice = (coins: Coin[]): number => {
+    return coins
+      .filter((coin) => coin.isAdded)
+      .reduce((total, coin) => total + coin.price * coin.quantity, 0);
+  };
+  
 const ShoppingList: React.FC<ShoppingListProps> = ({ coins, onRemove, onIncrement, onDecrement }) => {
   const addedCoins = coins.filter((coin) => coin.isAdded);
+  const totalPrice = getTotalPrice(addedCoins);
+
 
   return (
     
@@ -60,6 +67,31 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ coins, onRemove, onIncremen
         </Stack>
       ) : (
         <Text>No coins added yet!</Text>
+      )}
+      {addedCoins.length > 0 && (
+        <Stack tokens={{ childrenGap: 10 }} styles={{ root: { marginTop: '20px' } }}>
+          <Text variant="xxLarge">Grand Total</Text>
+
+          <Stack horizontal tokens={{ childrenGap: 10 }} wrap>
+            {addedCoins.map((coin) => (
+              <Stack key={coin.id} horizontal verticalAlign="center">
+                {Array.from({ length: coin.quantity }).map((_, index) => (
+                  <img
+                    key={index}
+                    src={coin.image}
+                    alt={coin.name}
+                    height={30}
+                    width={30}
+                    style={{ marginRight: '5px' }}
+                  />
+                ))}
+              </Stack>
+            ))}
+          </Stack>
+          <Text variant="large">
+            {formatPrice(totalPrice)}
+          </Text>
+        </Stack>
       )}
     </Stack>
   );
